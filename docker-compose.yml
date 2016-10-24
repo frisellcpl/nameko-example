@@ -1,0 +1,22 @@
+version: "2"
+services:
+  rabbit:
+    container_name: rabbitmq
+    image: rabbitmq:3.6-management
+    ports:
+        - "15673:15672"
+    restart: always
+  servicea:
+    container_name: servicea
+    image: servicea:latest
+    depends_on:
+      - rabbit
+    ports:
+        - "8001:8000"
+    links:
+        - "rabbit:rabbit"
+    environment:
+        RABBIT_PASSWORD: "guest"
+        RABBIT_USER: "guest"
+        RABBIT_HOST: "rabbit"
+        RABBIT_PORT: "15672"
